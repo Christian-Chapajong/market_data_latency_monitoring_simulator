@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: market-simulator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: market-simulator
+  template:
+    metadata:
+      labels:
+        app: market-simulator
+    spec:
+      containers:
+        - name: simulator
+          image: chapajon/market-simulator:latest
+          ports:
+            - containerPort: 8000
+          env:
+            - name: REDIS_HOST
+              value: redis
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: market-simulator
+spec:
+  selector:
+    app: market-simulator
+  ports:
+    - port: 8000
+      targetPort: 8000

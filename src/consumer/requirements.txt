@@ -1,0 +1,4 @@
+redis
+fastapi
+prometheus_client
+uvicorn

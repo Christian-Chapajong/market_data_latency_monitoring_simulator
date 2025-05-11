@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: market-consumer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: market-consumer
+  template:
+    metadata:
+      labels:
+        app: market-consumer
+    spec:
+      containers:
+        - name: consumer
+          image: chapajon/market-consumer:latest
+          ports:
+            - containerPort: 8000
+          env:
+            - name: REDIS_HOST
+              value: redis
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: market-consumer
+spec:
+  selector:
+    app: market-consumer
+  ports:
+    - port: 8000
+      targetPort: 8000
